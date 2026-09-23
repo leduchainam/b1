@@ -1,4 +1,42 @@
-\# Nhật ký Tương tác AI (AI Prompt Log) - QuickFeed Index Optimization
+\# Nhật ký Tương tác AI (AI Prompt Log) - SmartFactory Index Tuning
 
-Lượt 1: Tác hại của Index trên cột TEXT và cột BOOLEANPrompt: "Trong MySQL, nếu tôi tạo Index trên một cột chứa văn bản dài (TEXT) và một cột kiểu BOOLEAN (0 và 1), thì điều này gây hại như thế nào đến bộ nhớ RAM, dung lượng Disk và bộ tối ưu hóa (Query Optimizer)?"Tóm tắt phản hồi: Cột TEXT(255) tiêu tốn lượng byte bộ nhớ rất lớn cho mỗi con trỏ trong node B-Tree, làm giảm mật độ bản ghi trên mỗi trang nhớ (16KB page của InnoDB), dẫn đến kích thước file index phình to nhanh chóng. Cột BOOLEAN chỉ có 2 trạng thái nên độ chọn lọc (Selectivity) bằng $1/2 \\approx 50\\%$. MySQL Optimizer tính toán chi phí ngẫu nhiên khi đọc Index rồi quay về đọc bảng chính (Bookmark Lookup) đắt hơn nhiều so với đọc tuần tự, nên sẽ bỏ qua Index và quét toàn bảng.Lượt 2: Cơ chế tính toán kích thước Index qua information\_schemaPrompt: "Làm thế nào để truy vấn chính xác dung lượng thực tế của Data và Index theo đơn vị Megabyte (MB) của một bảng trong MySQL?"Tóm tắt phản hồi: Sử dụng view hệ thống information\_schema.TABLES, lấy hai trường data\_length và index\_length chia cho $(1024 \\times 1024)$ và lọc theo table\_schema và table\_name. Đây là số liệu do InnoDB Engine cấp phát theo dung lượng page vật lý.Lượt 3: Giải pháp thay thế khi cần tìm kiếm nội dung văn bảnPrompt: "Nếu cần tìm kiếm từ khóa bên trong cột content kiểu TEXT mà không làm phình to B-Tree Index, giải pháp chuẩn trong MySQL là gì?"Tóm tắt phản hồi: Sử dụng FULLTEXT Index kết hợp cú pháp MATCH(...) AGAINST(...). Full-Text Search sử dụng cấu trúc Chỉ mục đảo (Inverted Index) chuyên biệt cho văn bản thay vì cấu trúc cây B-Tree thông thường, giúp tiết kiệm bộ nhớ và hỗ trợ tìm kiếm từ khóa linh hoạt.
+Lượt 1: Bản chất của Covering Index và chi phí lưu trữ
+
+Prompt: "Covering Index là gì? Tại sao việc nhét tất cả các cột của bảng SensorLogs vào một Secondary Index lại làm dung lượng Index lớn hơn cả Data Length trong InnoDB?"
+
+
+
+Tóm tắt phản hồi: Covering Index là chỉ mục chứa toàn bộ các cột cần thiết cho câu truy vấn SELECT, giúp MySQL lấy dữ liệu ngay từ các node lá của B-Tree mà không cần thực hiện tra cứu lại bảng gốc (Bookmark Lookup). Tuy nhiên, trong InnoDB, mỗi dòng trong Secondary Index luôn tự động kèm theo khóa chính (log\_id - 8 bytes). Khi đưa thêm các trường temperature (3 bytes), humidity (3 bytes), và status (VARCHAR(20) \~ 21 bytes), kích thước mỗi bản ghi index tăng đột biến. Cùng với chi phí header của trang B-Tree và khoảng trống phân mảnh trang, dung lượng của Secondary Index dễ dàng vượt xa bảng dữ liệu chính.
+
+
+
+Lượt 2: Cơ chế Write Penalty trong hệ thống IoT tốc độ cao
+
+Prompt: "Hãy giải thích chi tiết khái niệm 'Write Penalty'. Tại sao một bảng nhận 10,000 bản ghi INSERT/giây lại sụp đổ nếu dùng Fat Covering Index?"
+
+
+
+Tóm tắt phản hồi: Write Penalty là chi phí hiệu năng tiêu tốn trên các thao tác ghi dữ liệu do phải bảo trì các chỉ mục phụ. Với 10.000 INSERT/giây, nếu dùng Fat Index, MySQL phải ghi dữ liệu 2 lần: một lần vào Clustered Index (Primary Key) và một lần vào Secondary B-Tree Index. Vì các giá trị nhiệt độ, độ ẩm và thời gian đến liên tục, các node lá của B-Tree nhanh chóng bị đầy, gây ra hiện tượng tách trang (Page Split) và xáo trộn ngẫu nhiên trên đĩa cứng (Random Disk I/O), làm cạn kiệt băng thông ghi và gây nghẽn toàn bộ đường ống truyền dữ liệu.
+
+
+
+Lượt 3: Tính toán byte dữ liệu (Data Byte Calculation) giữa VARCHAR và TINYINT
+
+Prompt: "Nếu thay đổi cột status từ VARCHAR(20) sang TINYINT trong bảng có 100 triệu dòng, dung lượng lưu trữ của Data và Index sẽ được tiết kiệm chính xác bao nhiêu byte?"
+
+
+
+Tóm tắt phản hồi:
+
+
+
+VARCHAR(20) dùng bảng mã UTF-8 cần 1 byte biểu diễn độ dài chuỗi + tối đa 20 bytes cho chuỗi ký tự (trung bình tiêu tốn khoảng 8 đến 10 bytes).
+
+
+
+TINYINT chỉ tiêu tốn đúng 1 byte duy nhất.
+
+
+
+Việc chuyển đổi tiết kiệm trung bình từ 7 đến 9 bytes trên mỗi bản ghi. Với 100 triệu dòng, hệ thống tiết kiệm được xấp xỉ 700MB đến 900MB cho dữ liệu thực tế, và nếu cột này nằm trong Index thì tiết kiệm thêm một lượng dung lượng tương đương trên cây B-Tree.
 
