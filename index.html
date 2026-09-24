@@ -2,21 +2,60 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Nhung CSS vao trang web</title>
-    <!-- Phan 3: External-style -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Phan 2: Internal-style -->
+    <title>Định dạng văn bản với CSS</title>
     <style>
-        .internal-style {
-            color: blue;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            color: #003366;
+            text-align: center;
+            font-size: 28px;
+            font-style: normal;
+            text-decoration: underline;
+        }
+
+        h2 {
+            color: #2e6c80;
+            text-align: left;
+            font-size: 20px;
+            font-style: italic;
+        }
+
+        p {
+            color: #333333;
+            font-size: 16px;
+            text-align: justify;
+            text-indent: 30px;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            color: red;
+            font-style: italic;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <h1>Tieu de chinh</h1>
-    <!-- Phan 1: Inline-style dung theo vi du mau cua he thong -->
-    <p style="color: green;">Doan van ban su dung inline-style</p>
-    <p class="internal-style">Doan van ban su dung internal-style</p>
-    <p class="external-style">Doan van ban su dung external-style</p>
+
+    <h1>ĐỊNH DẠNG VĂN BẢN VỚI CSS</h1>
+
+    <h2>1. Giới thiệu tổng quan</h2>
+    <p>
+        CSS (Cascading Style Sheets) là ngôn ngữ được sử dụng để tìm và định dạng lại các phần tử được tạo ra bởi các ngôn ngữ đánh dấu như HTML. Nó giúp tùy chỉnh màu sắc, kích thước phông chữ, khoảng cách và căn lề cho văn bản một cách chuyên nghiệp và linh hoạt.
+    </p>
+
+    <h2>2. Định dạng đoạn văn bản</h2>
+    <p>
+        Đoạn văn này được áp dụng thuộc tính căn đều hai bên (text-align: justify) và thụt đầu dòng (text-indent: 30px). Đồng thời, bạn có thể kết hợp với các thuộc tính như màu chữ, cỡ chữ và kiểu chữ để tạo điểm nhấn trực quan cho người đọc.
+    </p>
+    <p>
+        Một số từ có thể được làm nổi bật với <span class="highlight">màu sắc nổi bật và kiểu chữ nghiêng</span> nhằm thu hút sự chú ý.
+    </p>
+
 </body>
 </html>
