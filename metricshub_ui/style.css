@@ -1,0 +1,16 @@
+/*flexbox navbar*/
+.navbar-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; background-color: #212529; color: #ffffff; padding: 12px 24px; }
+.navbar-flex .logo { font-size: 1.25rem; font-weight: bold; }
+.nk/ar-flex .nav-links { display: flex; flex-wrap: wrap; gap: 15px; }
+.navbar-flex .nav-links a { color: #adb5bd; text-decoration: none; }
+.navbar-flex .nav-links a:hover { color: #ffffff; }
+
+/* grid bento dashboard */
+.grid-dashboard { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 140px; gap: 16px; }
+.widget { background: #ffffff; border: 1px solid #dee2e6; border-radius: 8px; padding: 20px; display: flex; align-items: center; justify-content: center; font-weight: 500; }
+.widget-large { grid-column: span 2; grid-row: span 2; background-color: #e9ecef; }
+
+@media (max-width: 768px) {
+    .grid-dashboard { grid-template-columns: 1fr; }
+    .widget-large { grid-column: auto; grid-row: auto; }
+}
