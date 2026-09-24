@@ -1,61 +1,60 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>Định dạng văn bản với CSS</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f9f9f9;
-        }
-
-        h1 {
-            color: #003366;
-            text-align: center;
-            font-size: 28px;
-            font-style: normal;
-            text-decoration: underline;
-        }
-
-        h2 {
-            color: #2e6c80;
-            text-align: left;
-            font-size: 20px;
-            font-style: italic;
-        }
-
-        p {
-            color: #333333;
-            font-size: 16px;
-            text-align: justify;
-            text-indent: 30px;
-            line-height: 1.6;
-        }
-
-        .highlight {
-            color: red;
-            font-style: italic;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Trang Web Doc Truyen Don Gian</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #fdfaf6; color: #333; line-height: 1.8; }
+.container { max-width: 800px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.header-image { text-align: center; margin-bottom: 20px; }
+.header-image img { max-width: 100%; height: auto; border-radius: 6px; }
+h1 { color: #8b0000; text-align: center; font-size: 26px; margin: 15px 0; }
+.toc { background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 15px 25px; border-radius: 6px; margin-bottom: 30px; }
+.toc h3 { margin-top: 0; color: #1e293b; }
+.toc ul { list-style-type: none; padding-left: 0; }
+.toc li { margin-bottom: 8px; }
+.toc h5 { margin: 4px 0; font-size: 15px; }
+.toc a { text-decoration: none; color: #0284c7; font-weight: bold; }
+.toc a:hover { text-decoration: underline; }
+.chapter { margin-bottom: 35px; padding-top: 15px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 20px; }
+.chapter h5 { color: #b91c1c; font-size: 18px; margin-bottom: 10px; }
+p { font-size: 16px; text-align: justify; text-indent: 25px; }
+.back-to-top { display: inline-block; margin-top: 10px; font-size: 13px; color: #64748b; text-decoration: none; }
+.back-to-top:hover { text-decoration: underline; }
+</style>
 </head>
 <body>
-
-    <h1>ĐỊNH DẠNG VĂN BẢN VỚI CSS</h1>
-
-    <h2>1. Giới thiệu tổng quan</h2>
-    <p>
-        CSS (Cascading Style Sheets) là ngôn ngữ được sử dụng để tìm và định dạng lại các phần tử được tạo ra bởi các ngôn ngữ đánh dấu như HTML. Nó giúp tùy chỉnh màu sắc, kích thước phông chữ, khoảng cách và căn lề cho văn bản một cách chuyên nghiệp và linh hoạt.
-    </p>
-
-    <h2>2. Định dạng đoạn văn bản</h2>
-    <p>
-        Đoạn văn này được áp dụng thuộc tính căn đều hai bên (text-align: justify) và thụt đầu dòng (text-indent: 30px). Đồng thời, bạn có thể kết hợp với các thuộc tính như màu chữ, cỡ chữ và kiểu chữ để tạo điểm nhấn trực quan cho người đọc.
-    </p>
-    <p>
-        Một số từ có thể được làm nổi bật với <span class="highlight">màu sắc nổi bật và kiểu chữ nghiêng</span> nhằm thu hút sự chú ý.
-    </p>
-
+<div class="container" id="top">
+<!-- Buoc 4: Anh dau trang -->
+<div class="header-image">
+<img src="https://picsum.photos/800/300" alt="Anh Bia Truyen">
+<h1>CHUYEN KE BEN CUA SO</h1>
+</div>
+<!-- Buoc 1 & 5: The h5 cho muc luc; Buoc 3: Lien ket neo -->
+<div class="toc">
+<h3>Muc luc truyen</h3>
+<ul>
+<li><h5><a href="#chuong-1">Chuong 1: Binh minh tren con pho vang</a></h5></li>
+<li><h5><a href="#chuong-2">Chuong 2: Con mua rao dau mua ha</a></h5></li>
+<li><h5><a href="#chuong-3">Chuong 3: La thu gui mua thu cu</a></h5></li>
+</ul>
+</div>
+<!-- Buoc 2: Noi dung tung chuong -->
+<div class="chapter" id="chuong-1">
+<h5>Chuong 1: Binh minh tren con pho vang</h5>
+<p>Anh nang som len qua tung ke la, rai nhung vet vang ong a xuong mat duong lat da. Thanh pho vua thuc giac trong bau khong khi trong lanh, thoang thoang huong thom tu quan ca phe nho ven duong.</p>
+<a class="back-to-top" href="#top">Quay lai muc luc</a>
+</div>
+<div class="chapter" id="chuong-2">
+<h5>Chuong 2: Con mua rao dau mua ha</h5>
+<p>Mua ha den bat ngo bang nhung con mua rao nhanh tan. Moi nang gat do thoi ma may den da keo den, tung hat mua rao rat roi tren mai hien, xua tan di cai oi a cua buoi trua he.</p>
+<a class="back-to-top" href="#top">Quay lai muc luc</a>
+</div>
+<div class="chapter" id="chuong-3">
+<h5>Chuong 3: La thu gui mua thu cu</h5>
+<p>Nhung con gio heo may dau tien bao hieu su doi thay cua dat troi. Mo tung trang giay da nga vang, nhung dong ky uc em dem nam nao lai hien ve nguyen ven nhu vua moi hom qua.</p>
+<a class="back-to-top" href="#top">Quay lai muc luc</a>
+</div>
+</div>
 </body>
 </html>
